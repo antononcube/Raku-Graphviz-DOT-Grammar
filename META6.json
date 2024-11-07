@@ -1,0 +1,34 @@
+{
+  "name": "Graphviz::DOT::Grammar",
+  "description": "Grammar for parsing DOT language specs and converting them to specs of Mermaid-JS, PlantUML, or Wolfram Language.",
+  "version": "0.0.1",
+  "perl": "6.d",
+  "authors": [
+    "Anton Antonov"
+  ],
+  "auth": "zef:antononcube",
+  "depends": [],
+  "build-depends": [],
+  "test-depends": [],
+  "provides": {
+    "Graphviz::DOT::Grammar": "lib/Graphviz/DOT/Grammar.rakumod",
+    "Graphviz::DOT::Grammarish": "lib/Graphviz/DOT/Grammarish.rakumod",
+    "Graphviz::DOT::Actions::Mathematica": "lib/Graphviz/DOT/Actions/Mathematica.rakumod"
+  },
+  "resources": [],
+  "license": "Artistic-2.0",
+  "tags": [
+    "grammar",
+    "dot",
+    "graphviz",
+    "mathematica",
+    "mermaid",
+    "mermaid-js",
+    "parser",
+    "wl",
+    "wolfram language",
+    "wolfram"
+  ],
+  "api": "0",
+  "source-url": "https://github.com/antononcube/Raku-Graphviz-DOT-Grammar.git"
+}
