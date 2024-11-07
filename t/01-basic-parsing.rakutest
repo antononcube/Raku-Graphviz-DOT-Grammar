@@ -1,0 +1,73 @@
+use v6.d;
+
+use lib <. lib>;
+use Graphviz::DOT::Grammar;
+
+use Test;
+
+plan *;
+
+#====================================================================
+## 1
+#====================================================================
+my $graph = q:to/END/;
+digraph { a -> b }
+END
+
+ok dot-parse($graph), "One liner";
+
+#====================================================================
+## 2
+#====================================================================
+my $graph2 = q:to/END/;
+digraph {
+    label = "First"
+    a -> b
+    b -> c
+    c -> a
+}
+END
+
+ok dot-parse($graph2), "Labeled triangle";
+
+#====================================================================
+## 3
+#====================================================================
+my $graph3 = q:to/END/;
+digraph {
+    label = "First";
+    a -> b;
+    b -> c;
+    c -> a;
+}
+END
+
+ok dot-parse($graph3), "Labeled triangle, sep => <;>";
+
+#====================================================================
+## 4
+#====================================================================
+
+my $graph4 = q:to/END/;
+graph {
+  label="Vincent van Gogh Paintings"
+
+  subgraph cluster_self_portraits {
+    label="Self-portraits"
+
+    spwgfh [label="Self-Portrait with Grey Felt Hat"]
+    spaap [label="Self-Portrait as a Painter"]
+  }
+
+  subgraph cluster_flowers {
+    label="Flowers"
+
+    sf [label="Sunflowers"]
+    ab [label="Almond Blossom"]
+  }
+}
+END
+
+ok dot-parse($graph3), "van Gogh example";
+
+done-testing;
