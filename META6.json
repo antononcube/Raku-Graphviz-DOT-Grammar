@@ -13,7 +13,8 @@
   "provides": {
     "Graphviz::DOT::Grammar": "lib/Graphviz/DOT/Grammar.rakumod",
     "Graphviz::DOT::Grammarish": "lib/Graphviz/DOT/Grammarish.rakumod",
-    "Graphviz::DOT::Actions::Mathematica": "lib/Graphviz/DOT/Actions/Mathematica.rakumod"
+    "Graphviz::DOT::Actions::Mathematica": "lib/Graphviz/DOT/Actions/Mathematica.rakumod",
+    "Graphviz::DOT::Actions::MermaidJS": "lib/Graphviz/DOT/Actions/MermaidJS.rakumod"
   },
   "resources": [],
   "license": "Artistic-2.0",

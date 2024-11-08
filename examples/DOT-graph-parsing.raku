@@ -8,6 +8,10 @@ END
 
 say dot-parse($graph);
 
+say "-" x 100;
+
+say dot-interpret($graph);
+
 #====================================================================================================
 say "=" x 100;
 
@@ -21,6 +25,10 @@ digraph {
 END
 
 say dot-parse($graph2);
+
+say "-" x 100;
+
+say dot-interpret($graph2);
 
 #====================================================================================================
 say "=" x 100;
@@ -46,3 +54,7 @@ graph {
 END
 
 say dot-parse($graph3);
+
+say "-" x 100;
+
+say dot-interpret($graph3);
