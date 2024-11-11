@@ -7,9 +7,9 @@ my %*SUB-MAIN-OPTS = :named-anywhere;
 
 #-----------------------------------------------------------
 
-#| Converts Graphviz DOT language texts or files into Mermaid-JS, Mathematica, Markdown, JSON, or SVG files.
+#| Converts Graphviz DOT language texts or files into Mermaid-JS, Mathematica, Markdown, JSON, Raku, or SVG files.
 sub MAIN(Str $text is copy,          #= Input file or DOT spec.
-         Str :t(:$to) = 'Whatever',  #= Format to convert to. (One of 'json', 'mathematica', 'mermaid', 'svg', or 'Whatever'.)
+         Str :t(:$to) = 'Whatever',  #= Format to convert to. (One of 'json', 'mathematica', 'mermaid', 'raku', 'svg', or 'Whatever'.)
          Str :o(:$output) = '',      #= Output file; if an empty string then the result is printed to stdout.
          ) {
 
@@ -25,7 +25,7 @@ sub MAIN(Str $text is copy,          #= Input file or DOT spec.
             when $_ ~~ / '.svg' / { 'svg' }
             when $_ ~~ / '.eps' / { '.eps' }
             when $_ ~~ / '.md' | '.mermaid' / { 'mermaid' }
-            when $_ ~~ / '.raku' | '.p6' / { 'raku' }
+            when $_ ~~ / '.raku' | '.rakumod' | '.p6' | '.pm6' / { 'raku' }
             default {
                 note 'Cannot automatically determine the format to convert to.';
                 'mermaid'
