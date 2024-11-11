@@ -4,6 +4,7 @@ use Graphviz::DOT::Grammarish;
 use Graphviz::DOT::Actions::Layout;
 use Graphviz::DOT::Actions::Mathematica;
 use Graphviz::DOT::Actions::MermaidJS;
+use Graphviz::DOT::Actions::PlantUML;
 
 grammar Graphviz::DOT::Grammar
         does Graphviz::DOT::Grammarish {
@@ -32,11 +33,14 @@ our sub dot-interpret(Str:D $command,
         when $_ ~~ Str:D && $_.lc ∈ <mermaid mermaid-js> {
             Graphviz::DOT::Actions::MermaidJS.new
         }
+        when $_ ~~ Str:D && $_.lc ∈ <plantuml> {
+            Graphviz::DOT::Actions::PlantUML.new
+        }
         when $_ ~~ Str:D && $_.lc ∈ <dot svg svgz json plain plain-ext ps eps fig vml> {
             Graphviz::DOT::Actions::Layout.new(format => $_.lc)
         }
         default {
-           $actions
+            $actions
         }
     }
 

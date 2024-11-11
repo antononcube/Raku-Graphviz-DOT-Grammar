@@ -15,7 +15,8 @@
     "Graphviz::DOT::Grammarish": "lib/Graphviz/DOT/Grammarish.rakumod",
     "Graphviz::DOT::Actions::Layout": "lib/Graphviz/DOT/Actions/Layout.rakumod",
     "Graphviz::DOT::Actions::Mathematica": "lib/Graphviz/DOT/Actions/Mathematica.rakumod",
-    "Graphviz::DOT::Actions::MermaidJS": "lib/Graphviz/DOT/Actions/MermaidJS.rakumod"
+    "Graphviz::DOT::Actions::MermaidJS": "lib/Graphviz/DOT/Actions/MermaidJS.rakumod",
+    "Graphviz::DOT::Actions::PlantUML": "lib/Graphviz/DOT/Actions/PlantUML.rakumod"
   },
   "resources": [],
   "license": "Artistic-2.0",
@@ -27,6 +28,7 @@
     "mermaid",
     "mermaid-js",
     "parser",
+    "plantuml",
     "wl",
     "wolfram language",
     "wolfram"
