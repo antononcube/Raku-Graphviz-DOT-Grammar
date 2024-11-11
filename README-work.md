@@ -43,6 +43,16 @@ $g.dot ==> dot-interpret(a=>'Mathematica')
 
 ------
 
+## CLI
+
+The package provides the Command Line Interface (CLI) script `from-dot`. Here its usage message:
+
+```shell
+from-dot --help
+```
+
+------
+
 ## References 
 
 [AAp1] Anton Antonov,
