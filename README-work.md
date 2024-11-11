@@ -20,11 +20,25 @@ Languages and formats DOT is translated to:
 
 ## Usage examples
 
-```perl6, output.prompt=NONE, result=asis
-use Graph::HexagonalGrid;
-use Graphviz::DOT::Grammar;
+Here is a graph (see [AAp1]):
 
-Graph::HexagonalGrid.new(1, 1).dot ==> dot-interpret(a=>'SVG')
+```perl6
+use Graph::HexagonalGrid;
+
+my $g = Graph::HexagonalGrid.new(1, 1);
+```
+
+Translate to [Mermaid-JS]():
+
+```perl6, output.prompt=NONE, output.language=mermaid
+use Graphviz::DOT::Grammar;
+$g.dot ==> dot-interpret(a=>'mermaid')
+```
+
+Translate to Mathematica:
+
+```perl6, output.prompt=NONE,  output.language=mathematica
+$g.dot ==> dot-interpret(a=>'Mathematica')
 ```
 
 ------
