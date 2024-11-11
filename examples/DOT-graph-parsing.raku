@@ -44,6 +44,10 @@ say "-" x 100;
 
 say dot-interpret($graph2, actions => 'plain');
 
+say "-" x 100;
+
+say dot-interpret($graph2, actions => 'raku');
+
 #====================================================================================================
 say "=" x 100;
 
