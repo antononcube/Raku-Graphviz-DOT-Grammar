@@ -4,7 +4,11 @@ use v6.d;
 # Common actions role
 #============================================================
 
-role Graphviz::DOT::Actions::Retrievish {
+role Graphviz::DOT::Actions::Common {
+
+    method to-quoted($arg) {
+        return "\"{$arg.Str}\"".subst(/ ^ \"+ | \"+ $ /, '"'):g;
+    }
 
     method get-node-attr-value($/, Str:D $attr) {
         return $<node-attr-list>.values>><attr-pair>.flat.grep({ $_<identifier> eq $attr });

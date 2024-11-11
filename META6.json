@@ -13,12 +13,12 @@
   "provides": {
     "Graphviz::DOT::Grammar": "lib/Graphviz/DOT/Grammar.rakumod",
     "Graphviz::DOT::Grammarish": "lib/Graphviz/DOT/Grammarish.rakumod",
+    "Graphviz::DOT::Actions::Common": "lib/Graphviz/DOT/Actions/Common.rakumod",
     "Graphviz::DOT::Actions::Layout": "lib/Graphviz/DOT/Actions/Layout.rakumod",
     "Graphviz::DOT::Actions::Mathematica": "lib/Graphviz/DOT/Actions/Mathematica.rakumod",
     "Graphviz::DOT::Actions::MermaidJS": "lib/Graphviz/DOT/Actions/MermaidJS.rakumod",
     "Graphviz::DOT::Actions::PlantUML": "lib/Graphviz/DOT/Actions/PlantUML.rakumod",
-    "Graphviz::DOT::Actions::Raku": "lib/Graphviz/DOT/Actions/Raku.rakumod",
-    "Graphviz::DOT::Actions::Retrievish": "lib/Graphviz/DOT/Actions/Retrievish.rakumod"
+    "Graphviz::DOT::Actions::Raku": "lib/Graphviz/DOT/Actions/Raku.rakumod"
   },
   "resources": [],
   "license": "Artistic-2.0",

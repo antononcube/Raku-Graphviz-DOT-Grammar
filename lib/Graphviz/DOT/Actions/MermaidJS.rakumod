@@ -3,10 +3,10 @@ use v6.d;
 #============================================================
 # The actions class
 #============================================================
-use Graphviz::DOT::Actions::Retrievish;
+use Graphviz::DOT::Actions::Common;
 
 class Graphviz::DOT::Actions::MermaidJS
-        does Graphviz::DOT::Actions::Retrievish {
+        does Graphviz::DOT::Actions::Common {
 
     has $!vertex-count = 0;
     has %!vertex-ids;

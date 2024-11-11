@@ -5,10 +5,10 @@ use v6.d;
 #============================================================
 
 use Graphviz::DOT::Actions::Mathematica;
-use Graphviz::DOT::Actions::Retrievish;
+use Graphviz::DOT::Actions::Common;
 
 class Graphviz::DOT::Actions::Raku
-        does Graphviz::DOT::Actions::Retrievish
+        does Graphviz::DOT::Actions::Common
         is Graphviz::DOT::Actions::Mathematica {
 
     method TOP($/) {
@@ -24,8 +24,8 @@ class Graphviz::DOT::Actions::Raku
     }
 
     method edge($/) {
-        my $from = $<node-id>[0].Str;
-        my $to = $<node-id>[1].Str;
+        my $from = self.to-quoted: $<node-id>[0].Str;
+        my $to = self.to-quoted: $<node-id>[1].Str;
         my $directed = $<edge-op>.Str eq '--' ?? ':!directed' !! ':directed';
         my $weight = self.get-weight-value($/);
         make Pair.new('edge', $weight ?? "\{from => $from, to => $to, weight => $weight, $directed\}" !! "$from => $to");
