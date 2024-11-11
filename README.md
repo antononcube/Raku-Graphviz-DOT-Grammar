@@ -5,16 +5,17 @@ Raku package with a parser and interpreters of Graphviz DOT language.
 Languages and formats DOT is translated to:
 
 - [X] DONE DOT layout formats
-  - SVG, EPS, JSON, plain, etc. 
+  - SVG, EPS, JSON, plain, etc.
+- [X] DONE PlantUML
+  - PlantUML uses DOT language, so it was very short and easy format implementation.
 - [X] DONE Mermaid-JS
 - [-] TODO Mathematica
   - [X] DONE Basic vertexes and edges
   - [ ] TODO Vertex styles
   - [ ] TODO Edge styles
-- [X] DONE PlantUML
-  - PlantUML uses DOT language, so it was very short and easy format implementation.
-- [ ] TODO Raku
+- [X] TODO Raku
   - Translation to Raku graphs, [AAp1]
+  - Based on the Mathematica actions
 
 ------
 
@@ -40,17 +41,17 @@ $g.dot ==> dot-interpret(a=>'mermaid')
 ```mermaid
 graph TB
 v0["2"]
-v1["5"]
-v2["4"]
+v1["4"]
+v2["1"]
 v3["0"]
-v4["1"]
+v4["5"]
 v5["3"]
-v2 --- v1
-v5 --- v1
-v0 --- v2
+v3 --- v2
 v3 --- v0
-v4 --- v5
-v3 --- v4
+v2 --- v5
+v1 --- v4
+v5 --- v4
+v0 --- v1
 ```
 
 Translate to Mathematica:
@@ -59,7 +60,7 @@ Translate to Mathematica:
 $g.dot ==> dot-interpret(a=>'Mathematica')
 ```
 ```mathematica
-Graph[{}, {UndirectedEdge["4", "5"], UndirectedEdge["3", "5"], UndirectedEdge["2", "4"], UndirectedEdge["0", "2"], UndirectedEdge["1", "3"], UndirectedEdge["0", "1"]}]
+Graph[{}, {UndirectedEdge["0", "1"], UndirectedEdge["0", "2"], UndirectedEdge["1", "3"], UndirectedEdge["4", "5"], UndirectedEdge["3", "5"], UndirectedEdge["2", "4"]}]
 ```
 
 ------
