@@ -23,7 +23,7 @@ our sub dot-parse(Str:D $command, Str:D :$rule = 'TOP') is export {
 
 our sub dot-interpret(Str:D $command,
                       Str:D :$rule = 'TOP',
-                      :$actions is copy = Graphviz::DOT::Actions::MermaidJS.new
+                      :a(:format(:$actions)) is copy = Graphviz::DOT::Actions::MermaidJS.new
                       ) is export {
     # Choose actions class
     $actions = do given $actions {
