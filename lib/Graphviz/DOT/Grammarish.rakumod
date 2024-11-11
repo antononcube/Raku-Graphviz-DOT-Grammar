@@ -16,7 +16,7 @@ role Graphviz::DOT::Grammarish {
     token attr-type      { 'graph' | 'node' | 'edge' }
     regex attr-list      { '[' \h* <attr-pair>+ % [\h* ',' \h*] \h* ']' }
     rule attr-pair       { <identifier> '=' <value> }
-    regex node-id        { <identifier> }
+    regex node-id        { <identifier> | <quoted-string> }
     regex edge-attr-list { <attr-list> }
     regex node-attr-list { <attr-list> }
     regex subgraph       { 'subgraph' [\s* <id>?] \s* '{' \s* <stmt-list> \s* '}' }
