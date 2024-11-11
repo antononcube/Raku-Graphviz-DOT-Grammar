@@ -1,6 +1,7 @@
 use v6.d;
 
 use Graphviz::DOT::Grammarish;
+use Graphviz::DOT::Actions::Layout;
 use Graphviz::DOT::Actions::Mathematica;
 use Graphviz::DOT::Actions::MermaidJS;
 
@@ -21,8 +22,25 @@ our sub dot-parse(Str:D $command, Str:D :$rule = 'TOP') is export {
 
 our sub dot-interpret(Str:D $command,
                       Str:D :$rule = 'TOP',
-                      :$actions = Graphviz::DOT::Actions::MermaidJS.new) is export {
-    my $ending = $command.substr(*- 1, *) eq "\n" ?? '' !! "\n";
-    return Graphviz::DOT::Grammar.parse($command ~ $ending, :$rule, :$actions).made;
+                      :$actions is copy = Graphviz::DOT::Actions::MermaidJS.new
+                      ) is export {
+    # Choose actions class
+    $actions = do given $actions {
+        when $_ ~~ Str:D && $_.lc ∈ ["mathematica", "wl", "wolfram language"] {
+            Graphviz::DOT::Actions::Mathematica.new
+        }
+        when $_ ~~ Str:D && $_.lc ∈ <mermaid mermaid-js> {
+            Graphviz::DOT::Actions::MermaidJS.new
+        }
+        when $_ ~~ Str:D && $_.lc ∈ <dot svg svgz json plain plain-ext ps eps fig vml> {
+            Graphviz::DOT::Actions::Layout.new(format => $_.lc)
+        }
+        default {
+           $actions
+        }
+    }
+
+    # Result
+    return Graphviz::DOT::Grammar.parse($command, :$rule, :$actions).made;
 }
 
