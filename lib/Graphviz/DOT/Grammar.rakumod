@@ -23,10 +23,13 @@ our sub dot-parse(Str:D $command, Str:D :$rule = 'TOP') is export {
 
 our sub dot-interpret(Str:D $command,
                       Str:D :$rule = 'TOP',
-                      :a(:format(:$actions)) is copy = Graphviz::DOT::Actions::MermaidJS.new
+                      :t(:to(:format(:a(:$actions)))) is copy = Graphviz::DOT::Actions::MermaidJS.new
                       ) is export {
     # Choose actions class
     $actions = do given $actions {
+        when Whatever {
+            Graphviz::DOT::Actions::MermaidJS.new
+        }
         when $_ ~~ Str:D && $_.lc ∈ ["mathematica", "wl", "wolfram language"] {
             Graphviz::DOT::Actions::Mathematica.new
         }
