@@ -6,6 +6,9 @@ use v6.d;
 
 class Graphviz::DOT::Actions::MermaidJS {
 
+    has $!vertex-count = 0;
+    has %!vertex-ids;
+
     #======================================================
     # General
     #======================================================
@@ -65,8 +68,22 @@ class Graphviz::DOT::Actions::MermaidJS {
         make $/.values.first.made;
     }
 
+    method node-id($/) {
+        if $<quoted-string> {
+            my $id = $<quoted-string>.Str;
+            if %!vertex-ids{$id}:exists {
+                make %!vertex-ids{$id}
+            } else {
+                %!vertex-ids{$id} = "v{$!vertex-count++}";
+                make "{%!vertex-ids{$id}}[{ $id }]"
+            }
+        } else {
+            make $/.Str;
+        }
+    }
+
     method node($/) {
-        my $id = $<node-id>.Str;
+        my $id = $<node-id>.made;
         my $attrs = '';
         if $<node-attr-list> {
             my @labels = |self.get-attr-value($/, 'label');
@@ -79,11 +96,11 @@ class Graphviz::DOT::Actions::MermaidJS {
     }
 
     method edge($/) {
-        my $from = $<node-id>[0].Str;
-        my $to = $<node-id>[1].Str;
+        my $from = $<node-id>[0].made;
+        my $to = $<node-id>[1].made;
         my $op = $<edge-op>.Str eq '->' ?? '-->' !! '---';
         my $attrs = $<edge-attr-list> ?? "|{ $<edge-attr-list>.made }|" !! '';
-        make "$from $op $attrs $to";
+        make "$from $op $attrs$to";
     }
 
     method attribute($/) {
