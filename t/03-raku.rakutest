@@ -1,0 +1,59 @@
+use v6.d;
+
+use lib <. lib>;
+use Graphviz::DOT::Grammar;
+
+use Test;
+
+plan *;
+
+my $actions = 'Raku';
+
+#====================================================================
+## 1
+#====================================================================
+my $graph = q:to/END/;
+digraph { a -> b }
+END
+
+ok dot-interpret($graph, :$actions), "One liner";
+
+#====================================================================
+## 2
+#====================================================================
+my $graph2 = q:to/END/;
+digraph {
+    label = "First"
+    a -> b
+    b -> c
+    c -> a
+}
+END
+
+my $res2 = q:to/END/;
+Graph.new([], ["a" => "b", "b" => "c", "c" => "a"], :directed)
+END
+
+# Titles are not supported in Mermaid-JS (2024-11-11).
+is
+        dot-interpret($graph2, :$actions).subst(/\v+/,"\n", :g).trim,
+        $res2.trim,
+        "Labeled triangle";
+
+#====================================================================
+## 3
+#====================================================================
+my $graph3 = q:to/END/;
+digraph {
+    "a" -> "b";
+    "b" -> "c";
+    "c" -> "a";
+}
+END
+
+is
+        dot-interpret($graph3, :$actions).subst(/\v+/,"\n", :g).trim,
+        $res2.trim,
+        "Triangle with quotes";
+
+done-testing;
