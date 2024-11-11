@@ -40,18 +40,18 @@ $g.dot ==> dot-interpret(a=>'mermaid')
 ```
 ```mermaid
 graph TB
-v0["2"]
+v0["1"]
 v1["4"]
-v2["1"]
+v2["5"]
 v3["0"]
-v4["5"]
-v5["3"]
-v3 --- v2
+v4["3"]
+v5["2"]
+v4 --- v2
+v1 --- v2
+v3 --- v5
+v5 --- v1
+v0 --- v4
 v3 --- v0
-v2 --- v5
-v1 --- v4
-v5 --- v4
-v0 --- v1
 ```
 
 Translate to Mathematica:
@@ -60,7 +60,7 @@ Translate to Mathematica:
 $g.dot ==> dot-interpret(a=>'Mathematica')
 ```
 ```mathematica
-Graph[{}, {UndirectedEdge["0", "1"], UndirectedEdge["0", "2"], UndirectedEdge["1", "3"], UndirectedEdge["4", "5"], UndirectedEdge["3", "5"], UndirectedEdge["2", "4"]}]
+Graph[{}, {UndirectedEdge["3", "5"], UndirectedEdge["4", "5"], UndirectedEdge["0", "2"], UndirectedEdge["2", "4"], UndirectedEdge["1", "3"], UndirectedEdge["0", "1"]}]
 ```
 
 ------
@@ -74,10 +74,10 @@ from-dot --help
 ```
 ```
 # Usage:
-#   from-dot <text> [-t|--to=<Str>] [-o|--output=<Str>] -- Converts Graphviz DOT language texts or files into Mermaid-JS, Mathematica, Markdown, JSON, or SVG files.
+#   from-dot <text> [-t|--to=<Str>] [-o|--output=<Str>] -- Converts Graphviz DOT language texts or files into Mermaid-JS, Mathematica, Markdown, JSON, Raku, or SVG files.
 #   
 #     <text>               Input file or DOT spec.
-#     -t|--to=<Str>        Format to convert to. (One of 'json', 'mathematica', 'mermaid', 'svg', or 'Whatever'.) [default: 'Whatever']
+#     -t|--to=<Str>        Format to convert to. (One of 'json', 'mathematica', 'mermaid', 'raku', 'svg', or 'Whatever'.) [default: 'Whatever']
 #     -o|--output=<Str>    Output file; if an empty string then the result is printed to stdout. [default: '']
 ```
 
