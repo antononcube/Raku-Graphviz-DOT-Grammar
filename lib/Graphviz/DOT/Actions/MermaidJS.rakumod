@@ -3,8 +3,10 @@ use v6.d;
 #============================================================
 # The actions class
 #============================================================
+use Graphviz::DOT::Actions::Retrievish;
 
-class Graphviz::DOT::Actions::MermaidJS {
+class Graphviz::DOT::Actions::MermaidJS
+        does Graphviz::DOT::Actions::Retrievish {
 
     has $!vertex-count = 0;
     has %!vertex-ids;
@@ -30,22 +32,6 @@ class Graphviz::DOT::Actions::MermaidJS {
             hexagon => <{{ }}>,
             cylinder => <[( )]>
             ;
-
-    method get-attr-value($/, Str:D $attr) {
-        return $<node-attr-list>.values>><attr-pair>.flat.grep({ $_<identifier> eq $attr });
-    }
-
-    method get-shape-value($/) {
-        my @shapes = |self.get-attr-value($/, 'shape');
-        my $shape = 'box';
-        if @shapes {
-            $shape = @shapes.head<value>.made;
-            if %!shapes{$shape}:!exists {
-                $shape = 'box'
-            }
-        }
-        return $shape;
-    }
 
     #======================================================
     # Grammar methods
@@ -86,7 +72,7 @@ class Graphviz::DOT::Actions::MermaidJS {
         my $id = $<node-id>.made;
         my $attrs = '';
         if $<node-attr-list> {
-            my @labels = |self.get-attr-value($/, 'label');
+            my @labels = |self.get-node-attr-value($/, 'label');
             my $shape = self.get-shape-value($/);
             if @labels {
                 $attrs = "{%!shapes{$shape}.head}{ @labels.head<value>.made }{%!shapes{$shape}.tail}";
