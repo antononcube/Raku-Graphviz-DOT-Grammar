@@ -14,19 +14,21 @@ class Graphviz::DOT::Actions::Mathematica {
         #my $type = $<type>.Str eq 'graph' ?? 'UndirectedEdge' !! 'DirectedEdge';
         #my $id = $<id> ?? $<id>.Str !! 'graph';
         my %stmts = $<stmt-list>.made;
-        my $vs = %stmts<vertex-style> ?? "VertexStyle -> {%stmts<vertex-style>}," !! '';
-        make "Graph\[{%stmts<vertexes>}, {%stmts<edges>}, $vs VertexLabels -> \"Name\"\]";
+        my $vs = %stmts<vertex-style> ?? "VertexStyle -> {%stmts<vertex-style>}" !! '';
+        make 'Graph[' ~ [ %stmts<vertexes>, %stmts<edges>, $vs, %stmts<global>].grep(*.so).join(', ') ~ ']';
     }
 
     method stmt-list($/) {
-        my @res = $<stmt>>>.made;
+        my @res = $<stmt>>>.made.flat;
         my @edges = @res.grep({ $_ ~~ Pair:D && $_.key eq 'edge' });
         my @vertexes = @res.grep({ $_ ~~ Pair:D && $_.key eq 'vertex' });
         my @styles = @res.grep({ $_ ~~ Pair:D && $_.key eq 'vertex-style' });
+        my @global = @res.grep({ $_ ~~ Str:D && $_.starts-with('label') }).map({ $_.subst(/^ label/, 'PlotLabel')});
         make %(
             vertexes => '{' ~ @vertexes>>.value.join(', ') ~ '}',
             edges => '{' ~ @edges>>.value.join(', ') ~ '}',
             vertex-style => @styles ?? '{' ~ @styles>>.value.join(', ') ~ '}' !! '',
+            :@global
         );
     }
 
@@ -54,12 +56,20 @@ class Graphviz::DOT::Actions::Mathematica {
         make "$type -> \{ $attrs \}";
     }
 
+    method node-attr-list($/) {
+        make $<attr-list>.made;
+    }
+
+    method edge-attr-list($/) {
+        make $<attr-list>.made;
+    }
+
     method attr-list($/) {
         make $<attr-pair>.map(*.made).join(', ');
     }
 
     method attr-pair($/) {
-        make "$<identifier>.Str -> $<value>.Str";
+        make "{$<identifier>.Str} -> {$<value>.Str}";
     }
 
     method subgraph($/) {
