@@ -20,7 +20,7 @@ sub MAIN(Str $text is copy,          #= Input file or DOT spec.
         $toSpec = do given $output {
             when !$_.chars { 'mermaid' }
             when $_ ~~ / '.wl' | '.m' / { 'mathematica' }
-            when $_ ~~ / '.dot' / { 'dot' }
+            when $_ ~~ / '.dot' | '.gv' / { 'dot' }
             when $_ ~~ / '.json' / { 'json' }
             when $_ ~~ / '.svg' / { 'svg' }
             when $_ ~~ / '.eps' / { '.eps' }
