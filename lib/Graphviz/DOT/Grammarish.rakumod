@@ -8,7 +8,8 @@ role Graphviz::DOT::Grammarish {
     token type           { 'graph' | 'digraph' }
     token id             { <identifier> }
     regex stmt-list      { <stmt>* % [\s* [ <stmt-sep> | \v ] \s*] }
-    regex stmt           { <node> | <edge> | <attribute> | <subgraph> | <assignment> }
+    regex stmt           { <node> | <edge> | <attribute> | <subgraph> | <assignment> | <comment> }
+    regex comment        { ^^ \h* '//' <-[\v]>.* }
     regex node           { <node-id> [\h* <node-attr-list>]? }
     regex edge           { <node-id> \h* <edge-op> \h* <node-id> [\h+ <edge-attr-list>]? \s* <stmt-sep>?}
     token edge-op        { '--' | '->' }
