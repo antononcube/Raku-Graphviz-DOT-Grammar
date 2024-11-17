@@ -1,7 +1,7 @@
 {
   "name": "Graphviz::DOT::Grammar",
   "description": "Grammar for parsing DOT language specs and converting them to specs of Mermaid-JS, PlantUML, or Wolfram Language.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "perl": "6.d",
   "authors": [
     "Anton Antonov"
