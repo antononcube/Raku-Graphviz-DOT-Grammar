@@ -9,9 +9,10 @@ role Graphviz::DOT::Grammarish {
     token id             { <identifier> }
     regex stmt-list      { <stmt>* % [\s* [ <stmt-sep> | \v ] \s*] }
     regex stmt           { <node> | <edge> | <attribute> | <subgraph> | <assignment> | <comment> }
-    regex comment        { ^^ \h* '//' <-[\v]>.* }
+    regex comment        { ^^ \h* '//' <-[\v]>* }
     regex node           { <node-id> [\h* <node-attr-list>]? }
-    regex edge           { <node-id> \h* <edge-op> \h* <node-id> [\h+ <edge-attr-list>]? \s* <stmt-sep>?}
+    regex edge           { <node-id> \h* <edge-rhs> [\h+ <edge-attr-list>]? \s* <stmt-sep>?}
+    regex edge-rhs       { <edge-op> \h* <node-id> [\h* <edge-rhs>]* }
     token edge-op        { '--' | '->' }
     regex attribute      { <attr-type> \h+ <attr-list> }
     token attr-type      { 'graph' | 'node' | 'edge' }

@@ -23,11 +23,33 @@ class Graphviz::DOT::Actions::Raku
         make "Graph.new({%stmts<vertexes>}, {%stmts<edges>}, $directed)";
     }
 
+#    method edge($/) {
+#        my $from = self.to-quoted: $<node-id>[0].Str;
+#        my $to = self.to-quoted: $<node-id>[1].Str;
+#        my $directed = $<edge-op>.Str eq '--' ?? ':!directed' !! ':directed';
+#        my $weight = self.get-weight-value($/);
+#        make Pair.new('edge', $weight ?? "\{from => $from, to => $to, weight => $weight, $directed\}" !! "$from => $to");
+#    }
     method edge($/) {
-        my $from = self.to-quoted: $<node-id>[0].Str;
-        my $to = self.to-quoted: $<node-id>[1].Str;
-        my $directed = $<edge-op>.Str eq '--' ?? ':!directed' !! ':directed';
+        my $from = $<node-id>.Str;
+        my @rhs = $<edge-rhs>.made;
+        my @res = [$from, |@rhs];
         my $weight = self.get-weight-value($/);
-        make Pair.new('edge', $weight ?? "\{from => $from, to => $to, weight => $weight, $directed\}" !! "$from => $to");
+        @res = @res.rotor(3=>-1).map({
+            if $weight {
+                "\{from => {$_[0] }, to => { $_[2] }, weight => $weight, { $_[1] }\}"
+            } else {
+                "\{from => {$_[0] }, to => { $_[2] }, { $_[1] }\}"
+            }
+        });
+        my $res = @res.join(', ');
+        make Pair.new('edge', $res);
+    }
+
+    method edge-rhs($/) {
+        my $to = $<node-id>.made;
+        my @rhs = |$<edge-rhs>».made;
+        my $op = $<edge-op>.Str eq '--' ?? ':!directed' !! ':directed';
+        make @rhs ?? [$op, $to, |@rhs.map(*.Slip)] !! [$op, $to];
     }
 }

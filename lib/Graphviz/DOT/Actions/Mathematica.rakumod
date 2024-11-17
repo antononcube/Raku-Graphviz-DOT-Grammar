@@ -36,6 +36,14 @@ class Graphviz::DOT::Actions::Mathematica {
         make $/.values[0].made;
     }
 
+    method comment($/) {
+        make $/.Str.subst('//', '(*') ~ "*)\n";
+    }
+
+    method node-id($/) {
+        make $/.Str;
+    }
+
     method node($/) {
         my $id = $<node-id>.Str;
         my $attrs = $<node-attr-list> ?? $<node-attr-list>.made !! '';
@@ -43,11 +51,27 @@ class Graphviz::DOT::Actions::Mathematica {
     }
 
     method edge($/) {
-        my $from = $<node-id>[0].Str;
-        my $to = $<node-id>[1].Str;
-        my $op = $<edge-op>.Str eq '--' ?? 'UndirectedEdge' !! 'DirectedEdge';
+        my $from = $<node-id>.Str;
+        my @rhs = $<edge-rhs>.made;
         my $attrs = $<edge-attr-list> ?? $<edge-attr-list>.made !! '';
-        make Pair.new('edge', $attrs ?? "$op\[$from, $to, $attrs\]" !! "$op\[$from, $to\]");
+        my @res = [$from, |@rhs];
+        note @res;
+        @res = @res.rotor(3=>-1).map({
+            if $attrs {
+                "{ $_[1] }\[{ $_[0] }, { $_[2] }, $attrs\]"
+            } else {
+                "{ $_[1] }\[{ $_[0] }, { $_[2] }\]"
+            }
+        });
+        my $res = @res.join(', ');
+        make Pair.new('edge', $res);
+    }
+
+    method edge-rhs($/) {
+        my $to = $<node-id>.made;
+        my @rhs = |$<edge-rhs>».made;
+        my $op = $<edge-op>.Str eq '--' ?? 'UndirectedEdge' !! 'DirectedEdge';
+        make @rhs ?? [$op, $to, |@rhs.map(*.Slip)] !! [$op, $to];
     }
 
     method attribute($/) {

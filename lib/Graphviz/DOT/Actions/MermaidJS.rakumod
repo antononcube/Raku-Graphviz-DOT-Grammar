@@ -54,6 +54,10 @@ class Graphviz::DOT::Actions::MermaidJS
         make $/.values.first.made;
     }
 
+    method comment($/) {
+        make $/.Str.subst('//', '%%');
+    }
+
     method node-id($/) {
         if $<quoted-string> {
             my $id = $<quoted-string>.Str;
@@ -82,11 +86,17 @@ class Graphviz::DOT::Actions::MermaidJS
     }
 
     method edge($/) {
-        my $from = $<node-id>[0].made;
-        my $to = $<node-id>[1].made;
-        my $op = $<edge-op>.Str eq '->' ?? '-->' !! '---';
+        my $from = $<node-id>.made;
+        my $rhs = $<edge-rhs>.made;
         my $attrs = $<edge-attr-list> ?? "|{ $<edge-attr-list>.made }|" !! '';
-        make "$from $op $attrs$to";
+        make $from ~ ' ' ~ $rhs.subst('⎡⎡⎡ATTRS⎦⎦⎦', $attrs, :g);
+    }
+
+    method edge-rhs($/) {
+        my $to = $<node-id>.made;
+        my $rhs = $<edge-rhs>».made;
+        my $op = $<edge-op>.Str eq '->' ?? '-->' !! '---';
+        make " $op ⎡⎡⎡ATTRS⎦⎦⎦$to$rhs";
     }
 
     method attribute($/) {
