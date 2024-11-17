@@ -55,7 +55,6 @@ class Graphviz::DOT::Actions::Mathematica {
         my @rhs = $<edge-rhs>.made;
         my $attrs = $<edge-attr-list> ?? $<edge-attr-list>.made !! '';
         my @res = [$from, |@rhs];
-        note @res;
         @res = @res.rotor(3=>-1).map({
             if $attrs {
                 "{ $_[1] }\[{ $_[0] }, { $_[2] }, $attrs\]"
