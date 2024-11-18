@@ -91,14 +91,14 @@ class Graphviz::DOT::Actions::MermaidJS
         my $attrs = self.get-label-value($/, 'edge');
         $attrs = $attrs ?? $attrs !! $<edge-attr-list>.made;
         $attrs = $<edge-attr-list> ?? "| {self.to-unquoted($attrs)} |" !! '';
-        make $from ~ ' ' ~ $rhs.subst('⎡⎡⎡ATTRS⎦⎦⎦', $attrs, :g);
+        make $from ~ $rhs.subst('⎡⎡⎡ATTRS⎦⎦⎦', $attrs, :g);
     }
 
     method edge-rhs($/) {
         my $to = $<node-id>.made;
         my $rhs = $<edge-rhs>».made;
         my $op = $<edge-op>.Str eq '->' ?? '-->' !! '---';
-        make "$op ⎡⎡⎡ATTRS⎦⎦⎦$to$rhs";
+        make " $op ⎡⎡⎡ATTRS⎦⎦⎦$to$rhs";
     }
 
     method attribute($/) {
