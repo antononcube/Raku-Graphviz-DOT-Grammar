@@ -1,5 +1,4 @@
 
-use lib <. lib>;
 use Graphviz::DOT::Grammar;
 
 my $graph = q:to/END/;
@@ -22,9 +21,9 @@ say "=" x 100;
 
 my $graph2 = q:to/END/;
 digraph {
+    // First graph
     label = "First";
-    a -> b;
-    b -> c;
+    a -> b -> c [label="letter"];
     c -> a;
 }
 END
@@ -81,4 +80,3 @@ say dot-interpret($graph3);
 say "-" x 100;
 
 say dot-interpret($graph3, actions => 'mathematica');
-
