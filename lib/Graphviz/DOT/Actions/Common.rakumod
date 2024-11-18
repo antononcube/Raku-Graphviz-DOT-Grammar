@@ -10,6 +10,10 @@ role Graphviz::DOT::Actions::Common {
         return "\"{$arg.Str}\"".subst(/ ^ \"+ | \"+ $ /, '"'):g;
     }
 
+    method to-unquoted($arg) {
+        return $arg.subst(/ ^ \"+ | \"+ $ /):g;
+    }
+
     method get-node-attr-value($/, Str:D $attr) {
         return $<node-attr-list>.values>><attr-pair>.flat.grep({ $_<identifier> eq $attr });
     }
@@ -35,6 +39,14 @@ role Graphviz::DOT::Actions::Common {
         my @weights = |self.get-edge-attr-value($/, 'weight');
         my $weight = Whatever;
         if @weights { $weight = @weights.head<value>.made; }
+        make $weight;
+    }
+
+    method get-label-value($/, Str:D $type) {
+        my $method = "get-{$type}-attr-value";
+        my @weights = |self."$method"($/, 'label');
+        my $weight = Nil;
+        with @weights { $weight = @weights.head<value>.made; }
         make $weight;
     }
 }

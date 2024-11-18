@@ -1,10 +1,9 @@
 use v6.d;
 
-#============================================================
-# The actions class
-#============================================================
+use Graphviz::DOT::Actions::Common;
 
-class Graphviz::DOT::Actions::Mathematica {
+class Graphviz::DOT::Actions::Mathematica
+        does Graphviz::DOT::Actions::Common {
     method TOP($/) {
         make $<graph>.made;
     }
@@ -53,7 +52,7 @@ class Graphviz::DOT::Actions::Mathematica {
     method edge($/) {
         my $from = $<node-id>.Str;
         my @rhs = $<edge-rhs>.made;
-        my $attrs = $<edge-attr-list> ?? $<edge-attr-list>.made !! '';
+        my $attrs = self.get-label-value($/, 'edge');
         my @res = [$from, |@rhs];
         @res = @res.rotor(3=>-1).map({
             if $attrs {
